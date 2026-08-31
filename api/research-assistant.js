@@ -1,0 +1,61 @@
+const PROJECT_CONTEXT = `
+You are the SynthFlag judge-facing research assistant. Answer only from this verified project context. Keep answers concise, specific, and candid. Clearly distinguish VERIFIED TEST1, MEASURED DEVELOPMENT, EXTERNAL RESEARCH, REJECTED, and PROPOSED. Never claim the team trained FeatDistill's four upstream experts or generated an unverified H200/30-generator corpus. Never claim TEST1 is TikTok's hidden test.
+
+TRACK: TikTok TechJam 2026 Track 5, robust AI-generated image detection under real-world transformations. Working contract: whole learned graph under 2B parameters; output AI-confidence probability; report clean and robustness results for JPEG, blur, resize, Gaussian noise, colour jitter, crop. The organizer demo is 4,998 COCO val2017 real plus 8,843 DALL-E Advanced fake and is a demonstration, not a final score or training set. Final hidden test composition and weighting are not disclosed in the written brief available to the team.
+
+LINEAGE: FeatDistill/UESTC is an existing published detector with two CLIP ViT-L/14 experts and two SigLIP So400M Patch14-384 experts. SynthFlag did not originate or train those upstream checkpoints. SynthFlag contributed a Track-specific evaluation contract, deterministic corruption harness, data preparation, frozen-feature extraction, lightweight head experiments, resolution routing, integrity checks, failure analysis and product/documentation. This existing-detector dependency may require organizer eligibility clearance.
+
+SELECTED TEST1 MODEL: frozen FeatDistill Expert 4 SigLIP encoder plus three stored 297,729-parameter heads. Total loaded parameters 429,414,469. Native longest side <=64 uses the accepted CIFAKE router head at alpha 1.25. Larger images use a fixed stack 0.65*epoch-05 + 0.35*epoch-08. Decision threshold is AI probability >=0.5. Patch-MIL v2 was rejected and contributes no residual.
+
+TEST1: 15,000 unique public images and 30,000 predictions, with one clean and one deterministic composite-corruption view per source. Each suite is balanced 2,500 real/2,500 AI-positive. CIFAKE: official test subset, CIFAR10-derived real vs Stable Diffusion 1.4 fake, native 32x32. SID-Set: public validation subset, 2,500 real, 1,250 full synthetic, 1,250 tampered; both positive. WildFake: score-blind sample from official 20% test metadata, real across ImageNet/FFHQ/CelebA-HQ/LAION5B/church/AFHQ and fake across 15 architectures; COCO, DALL-E, Midjourney and Stable Diffusion strata excluded. Augmentation uses 1-5 distinct families per source with exactly 1,000 sources at each depth: JPEG, blur, resize, noise, colour jitter, crop.
+
+TEST1 METRICS: CIFAKE clean AUC .9815664, AP .982338, accuracy .9198, precision .8923, recall .9548, specificity .8848, F1 .9225, MCC .8417, FN113 FP288. CIFAKE augmented AUC .90945184, AP .914845, accuracy .8226, precision .8089, recall .8448, specificity .8004, F1 .8265, MCC .6458, FN388 FP499. SID clean AUC .869072, AP .901813, accuracy .7876, precision .9878, recall .5824, specificity .9928, F1 .7328, MCC .6308, FN1044 FP18. SID augmented AUC .84386952, AP .884482, accuracy .7808, precision .9618, recall .5848, specificity .9768, F1 .7274, MCC .6105, FN1038 FP58. WildFake clean AUC .94670256, AP .947235, accuracy .8824, precision .8758, recall .8912, specificity .8736, F1 .8834, MCC .7649, FN272 FP316. WildFake augmented AUC .87845792, AP .875963, accuracy .7764, precision .7226, recall .8972, specificity .6556, F1 .8005, MCC .5697, FN257 FP861. Macro AUC .932447 clean and .877260 augmented, drop .0552.
+
+TEST1 LIMITS: public development diagnostic, not locked TikTok test. Public suites were inspected during earlier work. Resolution router was adopted after dimensions were known and nearly identifies CIFAKE. TEST1 replay used hash-verified cached encoder features/logits, so it is not a fresh encoder latency benchmark.
+
+DATA PREP: finalized prepared cache 25,000 balanced sources, 12,500 real and 12,500 generated, 81,378 cached rows/views. Real selected: Open Images V7 bulk 9,311; item-audited Open Images 2,566; iNaturalist 620; Wikimedia 3. Fake: DiffusionDB 6,581; DGM-Eval 3,014 (ADM1000, DDPM1000, MaskGIT1000, BigGAN14); guided-diffusion/BigGAN 986; X-AIGD 1,918; AIGenImages2026 1. Prepared cache is not identical to optimizer input.
+
+V3 HEAD: frozen 1,152-D Expert4 features. Adaptation pool 8,000 sources, five views, 4,000/class: real Open Images; fake ADM/BigGAN/DDPM/MaskGIT 1,000 each. Train 3,200/class and dev 800/class. Preservation replay 10,936 sources, 5,468/class, clean+hard; labels forbidden, teacher-logit/rank/residual preservation only. Head is LayerNorm -> Linear256 -> GELU -> Dropout.2 -> Linear2, 297,729 parameters, residual scale .075, LR1e-4, weight decay1e-4, 30 max epochs, stopped24, 97 candidates. Strongest epoch16 improved development worst-view AUC .658889 to .671894 but was rejected because CIFAKE fell .001973 clean and .002207 augmented and SID clean fell. Safe epoch1 step50 was practically identity.
+
+SID: remaining false negatives are overwhelmingly locally tampered rather than fully synthetic. Global pooling loses small edit regions. Lowering threshold creates steep FP cost: rescuing 10 additional FNs created 119 FPs; rescuing100 created1566 FPs. A mask-supervised patch specialist failed untouched audit and is a no-op. Credible future work is a local patch/token branch trained on source-disjoint inpainting/partial-generation examples.
+
+FALSE POSITIVES: TikTok business impact includes wrongly questioning authentic creators, appeals, trust and monetisation harm. Therefore low-FPR operating points matter. But SynthFlag cannot claim global FP minimisation: augmented WildFake has 861 FP and specificity .6556. Use probabilities, deployment-prevalence calibration, tiered review and human/provenance checks.
+
+DAY 1: verified metric contract and reproduced DDA. DDA is ~304M and RTX3060-friendly but Mirage-Test clean AUC .5949 and 19-condition mean .5652; organizer demo .9674 was shortcut-inflated by source/resolution/duplication. DAY 2: adopted Expert4 representation for research, built corruption/data/feature pipeline; PE-TTA4 WildFake clean .945854 but composite .748734. DAY 3: trained/rejected stronger heads, diagnosed SID, froze corrected-v2 stack, ran TEST1.
+
+RESEARCHER CALL: Professor Ng Teck Khim explained Bayer sampling/demosaicing local variance, advised same dataset+metric comparisons, said blur weakens the cue, and described a generator/detector spear-and-shield cycle. His 2023/2025 paper Local Statistics for Generative Image Detection uses green-channel diagonal high-pass/DFT percentile, 10x10 block diagonal variance and local cross-channel Pearson correlations. The call did not train SynthFlag weights, recommend Bayesian optimization or confirm a large generator corpus. Local-statistics fusion is proposed, not deployed.
+`;
+
+const FALLBACKS = [
+  [/ours|featdistill|lineage|trained/i, "FeatDistill/UESTC supplied the published architecture and upstream Expert 4 checkpoint. SynthFlag's work is the Track 5 evaluation contract, corruption harness, 25k preparation/cache, frozen-feature head experiments, resolution routing, integrity verification, error analysis and product. We do not claim to have trained the four upstream experts."],
+  [/reject|v3|stronger head/i, "The strongest v3 head improved held-out development worst-view AUC from 0.65889 to 0.67189, but it reduced CIFAKE AUC by about 0.00197 clean and 0.00221 augmented, and also reduced SID clean. Our regression gates therefore rejected it; the safe candidate was practically identity."],
+  [/dataset|test1|tested/i, "TEST1 contains 15,000 unique public images: 5,000 CIFAKE official-test images, 5,000 SID-Set public-validation images, and 5,000 from WildFake official 20% test metadata. Each is balanced 2,500 real/2,500 AI-positive. The same identities are scored clean and under one deterministic composite corruption, producing 30,000 predictions. It is not TikTok's hidden test."],
+  [/sid|false negative|fn/i, "SID's main failure is local tampering: the frozen Expert 4 representation globally pools the image, so a small edited region can disappear into mostly authentic content. SID clean has 1,044 FN but only 18 FP. Threshold lowering quickly creates many false positives, and the tested patch specialist failed its untouched audit."],
+  [/false positive|tiktok|business/i, "A false positive can wrongly question an authentic creator, trigger appeals, damage trust and interrupt monetisation, so low-FPR review points matter. But we do not hide the opposite risk: augmented WildFake has 861 FP and 0.6556 specificity. The production answer is cost-sensitive thresholds, tiered actions, provenance and human review—not one universal cutoff."],
+  [/next|future|improve/i, "The next credible improvement is a genuinely local patch/token branch trained on source-disjoint inpainting and partial-generation data, then calibrated beside the global branch. We would also validate a lightweight camera-statistics branch inspired by Wong & Ng and evaluate both on a locked generator/source-held-out suite before fusion."],
+];
+
+export default async function handler(req, res) {
+  if (req.method !== "POST") return res.status(405).json({ error: "POST required" });
+  const question = String(req.body?.question || "").trim().slice(0, 2000);
+  if (!question) return res.status(400).json({ error: "Question required" });
+  const apiKey = process.env.NVIDIA_API_KEY;
+  if (!apiKey) {
+    const hit = FALLBACKS.find(([pattern]) => pattern.test(question));
+    return res.status(200).json({ answer: hit ? hit[1] : "The server-side Nemotron key is not configured. Ask about TEST1, datasets, FeatDistill lineage, the rejected v3 head, SID false negatives, false-positive policy, or future work for a grounded offline answer.", mode: "offline-evidence" });
+  }
+  const history = Array.isArray(req.body?.history) ? req.body.history.slice(-8).map(m => ({ role: m.role === "assistant" ? "assistant" : "user", content: String(m.content || "").slice(0, 1500) })) : [];
+  try {
+    const upstream = await fetch("https://integrate.api.nvidia.com/v1/chat/completions", {
+      method: "POST",
+      headers: { "Authorization": `Bearer ${apiKey}`, "Content-Type": "application/json", "Accept": "application/json" },
+      body: JSON.stringify({ model: process.env.NVIDIA_MODEL || "nvidia/llama-3.3-nemotron-super-49b-v1", temperature: 0.2, top_p: 0.85, max_tokens: 900, stream: false, messages: [{ role: "system", content: PROJECT_CONTEXT }, ...history, { role: "user", content: question }] }),
+    });
+    const payload = await upstream.json();
+    if (!upstream.ok) return res.status(502).json({ error: "Research model unavailable", detail: payload?.detail || payload?.message });
+    const answer = payload?.choices?.[0]?.message?.content;
+    return res.status(200).json({ answer: typeof answer === "string" ? answer : "No answer returned.", mode: "nemotron-grounded" });
+  } catch {
+    return res.status(502).json({ error: "Research model unavailable" });
+  }
+}
