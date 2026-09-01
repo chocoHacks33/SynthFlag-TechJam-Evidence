@@ -20,7 +20,7 @@ This `Training-and-Eval` branch is the reproducible model-development record for
 
 | Layer | Origin/status | What this repository contributes |
 |---|---|---|
-| Frozen visual representation | **Upstream research dependency**: FeatDistill Expert 4 / SigLIP So400M | Exact dependency disclosure, safe loading contract and hash boundary |
+| Frozen visual representation | **Upstream research dependency**: SigLIP So400M | Exact dependency disclosure, safe loading contract and hash boundary |
 | Three residual heads | **Team-trained research artifacts** | Frozen-feature training, replay, routing, stack selection and untouched regression gates |
 | Augmentation system | **Team implementation** | Deterministic, label-symmetric recipes; codec/watermark/resolution shortcut controls |
 | TEST1 | **Team evaluation** | 15,000 public identities, clean + composite views, 30,000 predictions, full integrity evidence |
