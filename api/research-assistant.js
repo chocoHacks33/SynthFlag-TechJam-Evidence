@@ -53,17 +53,22 @@ export default async function handler(req, res) {
     return res.status(200).json({ answer: hit ? hit[1] : "The server-side Nemotron key is not configured. Ask about TEST1, datasets, FeatDistill lineage, the rejected v3 head, SID false negatives, false-positive policy, or future work for a grounded offline answer.", mode: "offline-evidence" });
   }
   const history = Array.isArray(req.body?.history) ? req.body.history.slice(-8).map(m => ({ role: m.role === "assistant" ? "assistant" : "user", content: String(m.content || "").slice(0, 1500) })) : [];
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), 35000);
   try {
     const upstream = await fetch("https://integrate.api.nvidia.com/v1/chat/completions", {
       method: "POST",
       headers: { "Authorization": `Bearer ${apiKey}`, "Content-Type": "application/json", "Accept": "application/json" },
+      signal: controller.signal,
       body: JSON.stringify({ model: process.env.NVIDIA_MODEL || "nvidia/llama-3.3-nemotron-super-49b-v1", temperature: 0.2, top_p: 0.85, max_tokens: 900, stream: false, messages: [{ role: "system", content: PROJECT_CONTEXT }, ...history, { role: "user", content: question }] }),
     });
     const payload = await upstream.json();
-    if (!upstream.ok) return res.status(502).json({ error: "Research model unavailable", detail: payload?.detail || payload?.message });
+    if (!upstream.ok) return res.status(502).json({ error: "Research model temporarily unavailable" });
     const answer = payload?.choices?.[0]?.message?.content;
     return res.status(200).json({ answer: typeof answer === "string" ? answer : "No answer returned.", mode: "nemotron-grounded" });
   } catch {
-    return res.status(502).json({ error: "Research model unavailable" });
+    return res.status(502).json({ error: "Research model temporarily unavailable" });
+  } finally {
+    clearTimeout(timeout);
   }
 }
