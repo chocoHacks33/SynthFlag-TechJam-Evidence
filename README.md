@@ -141,7 +141,6 @@ python training_eval\scripts\train_head.py `
   --device cuda
 ```
 
-This runner never updates the upstream encoder, rejects public test/reference split names, requires group-disjoint train/development identities, and selects internally by worst-view AUC. The proposed end-to-end H200 expert training is documented separately and is deliberately labelled **not run**.
 
 ## Repository map
 
