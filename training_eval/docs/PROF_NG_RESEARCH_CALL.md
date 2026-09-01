@@ -1,8 +1,6 @@
 # Why we contacted Prof Teck Khim Ng
 
 **Status:** factual research-process note  
-**Paper:** [Local Statistics for Generative Image Detection](https://arxiv.org/abs/2310.16684)  
-**Authors:** Yung Jer Wong and Teck Khim Ng, National University of Singapore School of Computing
 
 ## 1. An NUS paper led us back to NUS
 
@@ -47,17 +45,9 @@ It motivated a proposed local-statistics/patch expert with:
 
 It also strengthened our reporting language: SynthFlag is a triage signal, not a definitive authorship oracle, and consequential platform action needs provenance and human review.
 
-## 5. What the call did not do
-
-- Prof Ng and Wong did not train the current SynthFlag heads.
-- The current corrected-v2 model does not contain a Bayer/local-statistics branch.
-- The call did not validate TEST1 or endorse the project.
-- We do not claim collaboration, sponsorship or NUS approval.
-- We do not claim that we invented the paper's technique.
-
 The current selected detector remains a frozen upstream Expert 4 representation plus project-trained heads and routing. The Bayer/local-statistics direction is documented future work because the team did not have time to implement and audit it without risking new false positives.
 
-## 6. Why this matters for TikTok
+## 5. Why this matters for TikTok
 
 For a creator platform, adding a highly sensitive forensic branch without an untouched real-image audit would be irresponsible. A local cue that fires on ordinary camera processing, screenshots or beauty filters can wrongly flag authentic creators. The proposed branch therefore has two product gates:
 
@@ -65,11 +55,3 @@ For a creator platform, adding a highly sensitive forensic branch without an unt
 2. it must not increase false positives at the strict review threshold.
 
 If both cannot be satisfied, the signal remains an analyst-only diagnostic. That is the practical lesson we carried from the research call into the system design.
-
-## 7. Attribution
-
-Primary public reference:
-
-- Yung Jer Wong and Teck Khim Ng, “Local Statistics for Generative Image Detection,” arXiv:2310.16684. [Abstract and authorship record](https://arxiv.org/abs/2310.16684)
-
-The detailed call transcript is held as project evidence. This public note paraphrases only the research-relevant points and avoids presenting the conversation as an endorsement.
