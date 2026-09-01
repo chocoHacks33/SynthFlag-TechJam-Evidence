@@ -60,7 +60,7 @@ export default async function handler(req, res) {
       method: "POST",
       headers: { "Authorization": `Bearer ${apiKey}`, "Content-Type": "application/json", "Accept": "application/json" },
       signal: controller.signal,
-      body: JSON.stringify({ model: process.env.NVIDIA_MODEL || "nvidia/llama-3.3-nemotron-super-49b-v1.5", temperature: 0.2, top_p: 0.85, max_tokens: 900, stream: false, messages: [{ role: "system", content: PROJECT_CONTEXT }, ...history, { role: "user", content: question }] }),
+      body: JSON.stringify({ model: process.env.NVIDIA_MODEL || "nvidia/nemotron-3.5-lightning-30b-a3b", temperature: 0.2, max_tokens: 900, reasoning_budget: 0, chat_template_kwargs: { enable_thinking: false }, stream: false, messages: [{ role: "system", content: PROJECT_CONTEXT }, ...history, { role: "user", content: question }] }),
     });
     const payload = await upstream.json();
     if (!upstream.ok) return res.status(502).json({ error: "Research model temporarily unavailable" });
