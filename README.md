@@ -28,7 +28,6 @@ This `Training-and-Eval` branch is the reproducible model-development record for
 | TEST1 | **Team evaluation** | 15,000 public identities, clean + composite views, 30,000 predictions, full integrity evidence |
 | Four-expert H200 retrain | **Proposed / not run** | A clean-room recipe and evidence requirements; it did not create the weights currently in Drive |
 
-The source repository for FeatDistill is [tzlkkk/FeatDistill](https://github.com/tzlkkk/FeatDistill). Its code is Apache-2.0, but that does not establish redistribution rights for the separately hosted expert checkpoint files. The four large expert files already in the team Drive remain upstream artifacts and must not be rebranded as team-trained layers.
 
 ## Selected TEST1 graph
 
