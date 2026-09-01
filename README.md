@@ -96,7 +96,7 @@ The strongest augmentation-trained v3 candidate improved internal worst-view AUC
 
 ## False positives, false negatives and TikTok operations
 
-For a creator platform, a false positive can wrongly question authentic work, interrupt distribution or monetization, and create appeals. That motivates a low-FPR threshold for any consequential action. It does **not** justify ignoring false negatives.
+For a creator platform, a false positive can wrongly question authentic work, interrupt distribution or monetization, and create appeals. That motivates a low-FPR threshold for any consequential action. It does **not** justify ignoring false negatives. But our focus was tuned to Tiktok's case and thus we optimised for FPs first before FNs.
 
 The benchmark demonstrates why actions should be tiered:
 
