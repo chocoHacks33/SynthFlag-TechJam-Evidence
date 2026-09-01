@@ -100,15 +100,6 @@ The benchmark demonstrates why actions should be tiered:
 - A strict threshold can trigger provenance checks or human review; a lower threshold may populate a non-punitive risk queue.
 - No detector probability should be treated as proof of authorship.
 
-## Commercial-data gate
-
-The existing 25,000-source pool is historical experiment provenance, **not a commercial allowlist**. Two explicit blockers are enough to require a new run:
-
-- 9,311 bulk Open Images rows used a source-level CC BY assertion without item-by-item verification; and
-- 986 precomputed guided-diffusion/BigGAN sample pixels lack an explicit data-specific licence, with 682 entering the large-head gradient split.
-
-A strict retrain admits only receipt-complete CC0/CC BY records and explicitly licensed generated datasets, preserves attribution, and fails closed on CC12M/CommonPool/RedCaps pixels, NC material, unknown outputs, WildFake pixels and the two blocker tranches above. The full source-by-source decision is in [`DATA_RIGHTS.md`](training_eval/docs/DATA_RIGHTS.md).
-
 ## Run the package
 
 From the repository root in PowerShell:
