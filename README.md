@@ -156,9 +156,3 @@ training_eval/
 ```
 
 The website source remains on this branch so the same evidence can be rendered interactively. API secrets and model binaries are not committed.
-
-## Research lineage and eligibility
-
-Professor Teck Khim Ng and then-NUS undergraduate researcher Yung Jer Wong co-authored [Local Statistics for Generative Image Detection](https://arxiv.org/html/2310.16684v2). As NUS students, the team sought Professor Ng out from genuine curiosity about how the Bayer-pattern hypothesis began. The call informed a proposed local-statistics branch for SID-like edits; it did not train the current weights.
-
-Under the rule relayed to this project, using an existing AIGC detector may disqualify a submission even when the parameter count is below 2B. The current graph is therefore a research baseline unless the organizer gives written clearance. The defensible competition path is the proposed clean-room retrain from approved general-purpose bases, with new logs, hashes and an untouched source/generator-held-out audit.
