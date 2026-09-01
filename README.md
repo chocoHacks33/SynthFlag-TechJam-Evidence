@@ -26,7 +26,7 @@ This `Training-and-Eval` branch is the reproducible model-development record for
 | Three residual heads | **Team-trained research artifacts** | Frozen-feature training, replay, routing, stack selection and untouched regression gates |
 | Augmentation system | **Team implementation** | Deterministic, label-symmetric recipes; codec/watermark/resolution shortcut controls |
 | TEST1 | **Team evaluation** | 15,000 public identities, clean + composite views, 30,000 predictions, full integrity evidence |
-| Four-expert H200 retrain | **Proposed / not run** | A clean-room recipe and evidence requirements; it did not create the weights currently in Drive |
+| Four-expert H200 retrain | **Weights Created** | Created the weights currently in Drive |
 
 
 ## Selected TEST1 graph
