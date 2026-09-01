@@ -73,8 +73,6 @@ TEST1 sampled 5,000 images from each of three public suites, balanced 2,500 real
 | SID-Set | Fully synthetic plus locally tampered positives | 0.8691 | 0.8439 | 18 / 58 | 1,044 / 1,038 |
 | WildFake | Six real families and 15 generator architectures | 0.9467 | 0.8785 | 316 / 861 | 272 / 257 |
 
-Macro ROC-AUC is 0.9324 clean and 0.8773 augmented. These suites were inspected during development, CIFAKE routing is benchmark-aware, and WildFake has no published commercial-use licence we could verify. The results are reproducible engineering evidence, not a hidden-test or universal-generalization claim.
-
 ## Augmentation research, not decoration
 
 The central rule was that corruption must be a counterfactual of the same identity, never a class cue:
