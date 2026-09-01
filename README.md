@@ -2,8 +2,6 @@
 
 This `Training-and-Eval` branch is the reproducible model-development record for SynthFlag, a TikTok TechJam 2026 Track 5 research prototype. It packages the selected lightweight heads, TEST1 predictions and metrics, class-symmetric augmentation code, a rights-clean retraining runner, model/data cards, and the proposed clean-room four-expert plan.
 
-> **Evidence boundary:** TEST1 is a public development diagnostic, not TikTok's locked test. The current frozen encoder is an upstream FeatDistill checkpoint, not a team-trained expert. The project-trained heads are research artifacts and are not yet commercially cleared because parts of their legacy training lineage fail the strict row-level rights gate.
-
 ## Start here
 
 - [Live judge-facing site](https://synthflag-techjam-evidence.vercel.app)
